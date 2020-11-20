@@ -6,7 +6,6 @@ import java.nio.charset.StandardCharsets;
 public class Expression{
 
     public String resolveExpression(String expression)  {
-        // char[] exp = expression.toCharArray();
         char operation = '#';
         StringBuilder num1 = new StringBuilder();
         StringBuilder num2 = new StringBuilder();
@@ -19,16 +18,19 @@ public class Expression{
                     num1.append(s);
                 else num2.append(s);
             } else if (s.matches("[-/+*^%]")) {
-                if(operation=='#')
+                if(operation=='#') {
                     operation = s.toCharArray()[0];
+                }
                 else
-                    return "Ea";
+                    return "E";
             }
             else if(!s.matches("\\s+"))
-                return "Ef";
+                return "E";
         }
         if(operation=='#')
             return num1.toString();
+        if((operation == '/'|| operation == '%')&& num2.toString().equals("0"))
+            return "E";
         return String.valueOf(operation(Double.parseDouble(num1.toString()),Double.parseDouble(num2.toString()),operation));
     }
     private double operation(double a,double b ,char operation){
